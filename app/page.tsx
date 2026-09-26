@@ -19,9 +19,14 @@ export default function Home() {
   const [paymentAttempt, setPaymentAttempt] = useState(0);
 
   const sendMessageToParent = (message: object) => {
-    console.log("Checkout sending message:", message);
+    const parentOrigin =
+      new URLSearchParams(window.location.search).get("parentOrigin");
 
-    window.parent.postMessage(message, "http://localhost:3000");
+    if (!parentOrigin) {
+      return;
+    }
+
+    window.parent.postMessage(message, parentOrigin);
   };
 
   const handleClose = () => {
